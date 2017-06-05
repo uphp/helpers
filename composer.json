@@ -11,8 +11,8 @@
          "php": ">=7.0.0"
     },
     "autoload": {
-        "psr-4": {
-            "UPhp\\Helpers\\": "src/"
-        }
+        "files": [
+            "src/defineControllerFunctions.php"
+        ]
     }
  }
