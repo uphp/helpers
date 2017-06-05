@@ -1,6 +1,6 @@
 {
-    "name": "uphp/inflection",
-    "description": "Este pacote serve para adicionar inflection irregular ao uphp",
+    "name": "uphp/helpers",
+    "description": "Helpers functions for UPhp",
     "authors": [ 
         {
             "name": "Diego Bentes",
@@ -8,11 +8,11 @@
         }
     ],    
     "require": {
-         "php": ">=7.0.0",
-         "doctrine/inflector": "^1.1",
-         "uphp/exception": "^1.0"
+         "php": ">=7.0.0"
     },
     "autoload": {
-        "files": ["src/Inflection.php"]
+        "psr-4": {
+            "UPhp\\Helpers": "src/"
+        }
     }
  }
