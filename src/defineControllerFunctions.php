@@ -1,5 +1,5 @@
 <?php
-namespace UPhp\Helpers;
+namespace controllers;
 
 if (! function_exists('view')) {
     function view()
