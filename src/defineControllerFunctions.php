@@ -1,9 +1,14 @@
 <?php
 namespace controllers;
 
-if (! function_exists('view')) {
-    function view()
+use \UPhp\ActionController\ActionController;
+
+//if (! function_exists('view')) {
+    function view($viewObject, $options = [])
     {
-        echo "<br>Render view<br>";
+        //var_dump($this);
+        $classController = "controllers\\" . ucwords($viewObject->controllerName) . "Controller";
+        $actionController = new $classController();
+        $actionController->render($viewObject, $options);
     }
-}
+//}
