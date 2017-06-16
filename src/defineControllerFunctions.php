@@ -10,4 +10,9 @@ use \UPhp\ActionController\ActionController;
         $actionController = new $classController();
         $actionController->render($viewObject, $options);
     }
+
+    function json($arrayEncode, $options = [])
+    {
+        echo json_encode($arrayEncode);
+    }
 //}
