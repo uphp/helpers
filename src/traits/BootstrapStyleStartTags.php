@@ -28,9 +28,12 @@ trait BootstrapStyleStartTags{
         return "<" . self::$tagPanel . " class=\"" . self::$classPanel . $class . "\">\n";
     }
 
-    public function panelBodyStart($class = "panel-body")
+    public function panelBodyStart($class = "panel-body", $option = [])
     {
         if (self::$panelStarted) {
+            if (isset($option["class"])) {
+                $class .= " " . $option["class"];
+            }
             self::$panelBodyStarted = true;
             return "<" . self::$tagPanelBody . " class=\"" . $class . "\">\n";
         } else {
