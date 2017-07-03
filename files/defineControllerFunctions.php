@@ -1,8 +1,6 @@
 <?php
 namespace controllers;
 
-use \UPhp\ActionController\ActionController;
-
 if (! function_exists('view')) {
     function view($viewObject, $options = [])
     {
