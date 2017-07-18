@@ -59,16 +59,22 @@ class FormHelper{
      */
     public static function textField(string $property, Array $htmlOptions=[])
     {
-        $className = self::getClassName(get_class(self::$object));
+        return self::inputField("text", $property, $htmlOptions);
+    }
 
-        $htmlProperties = array_keys($htmlOptions);
-        if (! in_array("id", $htmlProperties)) $htmlOptions["id"] = Inflection::tableize($className) . "_" . $property;
-        if (! in_array("name", $htmlProperties)) $htmlOptions["name"] = Inflection::tableize($className) . "[" . $property . "]";
-        if (! in_array("value", $htmlProperties)) $htmlOptions["value"] = self::$object->$property()->value();
+    /**
+     * @param string $property
+     * @param array $htmlOptions
+     * @return string
+     */
+    public static function hiddenField(string $property, Array $htmlOptions=[])
+    {
+        return self::inputField("hidden", $property, $htmlOptions);
+    }
 
-        $htmlPropertiesSerialized = self::serializeHtmlOptions($htmlOptions);
-        $inputHtml = "<input type=\"text\" " . $htmlPropertiesSerialized . " />";
-        return $inputHtml;
+    public static function select(string $property, Array $htmlOptions=[])
+    {
+
     }
 
     /**
@@ -130,6 +136,23 @@ class FormHelper{
         $htmlPropertiesSerialized = self::serializeHtmlOptions($htmlOptions);
         $htmlButton = "<button type=\"" . $htmlOptions["type"] . "\" " . $htmlPropertiesSerialized . ">" . $label . "</button>";
         return $htmlButton;
+    }
+
+    /**
+     * @param string $type
+     */
+    private static function inputField(string $type, string $property, Array $htmlOptions=[])
+    {
+        $className = self::getClassName(get_class(self::$object));
+
+        $htmlProperties = array_keys($htmlOptions);
+        if (! in_array("id", $htmlProperties)) $htmlOptions["id"] = Inflection::tableize($className) . "_" . $property;
+        if (! in_array("name", $htmlProperties)) $htmlOptions["name"] = Inflection::tableize($className) . "[" . $property . "]";
+        if (! in_array("value", $htmlProperties)) $htmlOptions["value"] = self::$object->$property()->value();
+
+        $htmlPropertiesSerialized = self::serializeHtmlOptions($htmlOptions);
+        $inputHtml = "<input type=\"" . $type . "\" " . $htmlPropertiesSerialized . " />";
+        return $inputHtml;
     }
 
     /**
