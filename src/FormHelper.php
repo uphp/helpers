@@ -72,9 +72,19 @@ class FormHelper{
         return self::inputField("hidden", $property, $htmlOptions);
     }
 
-    public static function select(string $property, Array $htmlOptions=[])
+    public static function select(string $property, Array $options=[], Array $htmlOptions=[])
     {
-
+        $htmlOptions = self::dealHtmlOptions($property, $htmlOptions);
+        $value = $htmlOptions["value"];
+        unset($htmlOptions["value"]);
+        $htmlPropertiesSerialized = self::serializeHtmlOptions($htmlOptions);
+        $select = "<select " . $htmlPropertiesSerialized . ">";
+        foreach ($options as $option) {
+            $option["value"] == $value ? $selected = "selected" : $selected = "";
+            $select .= "<option value=\"" . $option["value"] . "\" " . $selected . ">" . $option["label"] . "</option>";
+        }
+        $select .= "</select>";
+        return $select;
     }
 
     /**
@@ -143,16 +153,22 @@ class FormHelper{
      */
     private static function inputField(string $type, string $property, Array $htmlOptions=[])
     {
-        $className = self::getClassName(get_class(self::$object));
 
-        $htmlProperties = array_keys($htmlOptions);
-        if (! in_array("id", $htmlProperties)) $htmlOptions["id"] = Inflection::tableize($className) . "_" . $property;
-        if (! in_array("name", $htmlProperties)) $htmlOptions["name"] = Inflection::tableize($className) . "[" . $property . "]";
-        if (! in_array("value", $htmlProperties)) $htmlOptions["value"] = self::$object->$property()->value();
+        $htmlOptions = self::dealHtmlOptions($property, $htmlOptions);
 
         $htmlPropertiesSerialized = self::serializeHtmlOptions($htmlOptions);
         $inputHtml = "<input type=\"" . $type . "\" " . $htmlPropertiesSerialized . " />";
         return $inputHtml;
+    }
+
+    private static function dealHtmlOptions(string $property, Array $htmlOptions)
+    {
+        $className = self::getClassName(get_class(self::$object));
+        $htmlProperties = array_keys($htmlOptions);
+        if (! in_array("id", $htmlProperties)) $htmlOptions["id"] = Inflection::tableize($className) . "_" . $property;
+        if (! in_array("name", $htmlProperties)) $htmlOptions["name"] = Inflection::tableize($className) . "[" . $property . "]";
+        if (! in_array("value", $htmlProperties)) $htmlOptions["value"] = self::$object->$property()->value();
+        return $htmlOptions;
     }
 
     /**
